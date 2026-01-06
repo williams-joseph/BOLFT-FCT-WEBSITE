@@ -1,0 +1,143 @@
+<!-- Hero Section -->
+<section class="relative h-[50vh] bg-deep-green flex items-center justify-center text-center px-4 overflow-hidden">
+  <!-- Background image -->
+  <div class="absolute inset-0 bg-cover bg-center opacity-40 bg-[url('/assets/hero-general.jpg')]"></div>
+  <div class="absolute inset-0 bg-black/50"></div>
+  <div class="relative z-10 max-w-4xl">
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">Sermons</h1>
+    <p class="text-lg text-lemon max-w-2xl mx-auto font-medium">Listen to our most recent messages</p>
+  </div>
+</section>
+
+<div class="bg-white py-16 md:py-24">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Removed old text-center header div -->
+
+    <!-- Search & Filters -->
+    <div class="max-w-4xl mx-auto mb-12">
+      <div class="bg-slate-50 p-6 sm:p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="relative group">
+            <svg
+              class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-deep-green transition-colors"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input [(ngModel)]="searchTerm" (ngModelChange)="searchTerm.set($event)" type="text"
+              placeholder="Search by title or preacher..."
+              class="w-full pl-14 pr-6 py-4 rounded-2xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-deep-green outline-none transition-all font-medium text-slate-700 bg-white shadow-inner shadow-slate-50">
+          </div>
+          <div class="relative group">
+            <svg
+              class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-deep-green transition-colors"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <input [(ngModel)]="searchDate" (ngModelChange)="searchDate.set($event)" type="date"
+              class="w-full pl-14 pr-6 py-4 rounded-2xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-deep-green outline-none transition-all font-medium text-slate-700 bg-white shadow-inner shadow-slate-50">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sermons List -->
+    <div class="space-y-8 max-w-4xl mx-auto">
+      @for (sermon of filteredSermons(); track sermon.id) {
+      <div
+        class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-slate-100 p-8 transition-all duration-300 relative group">
+
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">{{ sermon.title }}</h2>
+            <p class="text-deep-green font-medium mt-1">Preached by: {{ sermon.preacher }}</p>
+          </div>
+          <div class="text-sm font-medium text-slate-400 bg-slate-50 px-3 py-1 rounded-full mt-2 sm:mt-0">
+            {{ sermon.date | date:'mediumDate' }}
+          </div>
+        </div>
+
+        <p class="text-slate-600 leading-relaxed mb-8">{{ sermon.description }}</p>
+
+        <div class="flex flex-wrap gap-4">
+          @if(sermon.youtubeLink) {
+          <a [href]="sermon.youtubeLink" target="_blank"
+            class="inline-flex items-center px-6 py-2.5 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-all shadow-sm">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.411 0 5.846 0 12s.488 8.589 4.385 8.816c3.6.245 11.626.246 15.23 0C23.512 20.589 24 18.154 24 12s-.488-8.589-4.385-8.816zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+            Watch Video
+          </a>
+          }
+          <!-- 
+          @if(sermon.googleDriveId) {
+          <button (click)="toggleAudio(sermon)"
+            class="inline-flex items-center px-6 py-2.5 bg-deep-green text-white font-semibold rounded-xl hover:bg-deep-green-hover transition-all shadow-sm min-w-[140px] justify-center">
+            @if(activeSermonId() === sermon.id && isPlaying()) {
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>
+            </svg>
+            <span>Pause</span>
+            } @else {
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+            <span>Listen Audio</span>
+            }
+          </button>
+          } -->
+
+          @if(sermon.googleDriveId) {
+          <button (click)="downloadSermon(sermon)" [disabled]="downloadingId() === sermon.id"
+            class="inline-flex items-center px-6 py-2.5 bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-slate-200 transition-all disabled:opacity-70 disabled:cursor-not-allowed">
+            @if(downloadingId() === sermon.id) {
+            <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-slate-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            <span>Downloading...</span>
+            } @else {
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            <span>Download</span>
+            }
+          </button>
+          }
+        </div>
+
+        <!-- Audio Player UI (Currently Disabled) -->
+        <!-- @if(sermon.googleDriveId && activeSermonId() === sermon.id) {
+        <div
+          class="mt-8 bg-slate-50 p-6 rounded-xl border border-slate-100 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div (click)="seek($event)" class="w-full bg-slate-200 rounded-full h-2 cursor-pointer group mb-2">
+            <div class="bg-lemon h-2 rounded-full relative transition-all duration-100" [style.width.%]="progress()">
+              <div
+                class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-4 h-4 bg-white rounded-full shadow-md border-2 border-lemon scale-0 group-hover:scale-100 transition-transform">
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between text-xs font-bold font-mono text-slate-400">
+            <span>{{ formatTime(currentTime()) }}</span>
+            <span>{{ formatTime(duration()) }}</span>
+          </div>
+        </div>
+        } -->
+      </div>
+      } @empty {
+      <div class="text-center py-12 bg-white rounded-2xl border border-dashed border-slate-300">
+        <p class="text-slate-500">No sermons have been uploaded yet.</p>
+      </div>
+      }
+    </div>
+  </div>
+  <audio #audioPlayer (ended)="onAudioEnded()" (pause)="isPlaying.set(false)" (playing)="isPlaying.set(true)"
+    (loadedmetadata)="onMetadataLoaded($event)" (timeupdate)="onTimeUpdate($event)" class="hidden">
+  </audio>
+</div>

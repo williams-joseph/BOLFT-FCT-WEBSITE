@@ -1,0 +1,59 @@
+<div class="min-h-screen bg-slate-50 font-sans">
+
+  <!-- Navigation Header (Simple & Focused) -->
+  <header class="bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+
+        <!-- Brand & Logo -->
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden shadow-md">
+            <img src="assets/logo.jpg" alt="Logo" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <h1 class="text-xl font-black text-slate-900 tracking-tight uppercase">BOLFT WEB ADMIN</h1>
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none">Church Management
+              System</p>
+          </div>
+        </div>
+
+        <!-- Navigation Links & Logout -->
+        <div class="flex items-center space-x-8">
+          <nav class="hidden md:flex space-x-6">
+            @for (item of navigationItems; track item.path) {
+            <a [routerLink]="item.path" routerLinkActive="text-slate-900 border-slate-900"
+              [routerLinkActiveOptions]="{exact: true}"
+              class="h-20 flex items-center px-1 border-b-2 border-transparent text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">
+              {{ item.label }}
+            </a>
+            }
+          </nav>
+
+          <div class="h-8 w-px bg-slate-200"></div>
+
+          <button (click)="logout()"
+            class="flex items-center space-x-2 px-4 py-2 bg-rose-50 text-rose-600 rounded-xl font-bold text-sm hover:bg-rose-100 transition-all border border-rose-100">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7" />
+            </svg>
+            <span>Logout</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-8 min-h-[600px]">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Simple Footer -->
+  <footer class="py-10 text-center">
+    <p class="text-xs font-bold text-slate-300 uppercase tracking-widest">© 2025 Brethren Of Like Faith Tabernacle</p>
+  </footer>
+
+</div>

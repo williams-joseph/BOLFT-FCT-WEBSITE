@@ -1,0 +1,163 @@
+<!-- Hero Section -->
+<section class="relative h-[40vh] bg-deep-green flex items-center justify-center text-center px-4 overflow-hidden">
+  <div class="absolute inset-0 bg-cover bg-center opacity-30 bg-[url('/assets/hero-general.jpg')]"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-deep-green/90"></div>
+  <div class="relative z-10 max-w-4xl">
+    <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white mb-4 uppercase">Testimonies</h1>
+    <div class="h-1.5 w-24 bg-lemon mx-auto mb-6 rounded-full"></div>
+    <p class="text-xl text-lemon/90 max-w-2xl mx-auto font-bold italic">"And they overcame him by the blood of the Lamb
+      and by the word of their testimony..."</p>
+  </div>
+</section>
+
+<div class="py-20 bg-slate-50">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      @for (testimony of visibleTestimonies(); track testimony.id) {
+      <div
+        class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 border border-slate-100 flex flex-col transition-all duration-500 group overflow-hidden">
+        <!-- Optional Image Header -->
+        @if (testimony.imageUrl) {
+        <div class="h-48 overflow-hidden relative">
+          <img [src]="testimony.imageUrl" [alt]="testimony.name"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+          </div>
+        </div>
+        } @else {
+        <div class="h-32 bg-deep-green/5 flex items-center justify-center relative overflow-hidden">
+          <svg class="w-16 h-16 text-deep-green/10" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+              clip-rule="evenodd" />
+          </svg>
+        </div>
+        }
+
+        <div class="p-8 flex-grow flex flex-col">
+          <div class="mb-6">
+            <svg class="w-10 h-10 text-lemon mb-4 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M14.017 21L14.017 18C14.017 16.899 14.914 16 16.017 16H19.017V14H17.017C15.914 14 15.017 13.103 15.017 12V9C15.017 7.899 15.914 7 17.017 7H20.017C21.119 7 22.017 7.899 22.017 9V21H14.017ZM3.017 21V18C3.017 16.899 3.914 16 5.017 16H8.017V14H6.017C4.914 14 4.017 13.103 4.017 12V9C4.017 7.899 4.914 7 6.017 7H9.017C10.119 7 11.017 7.899 11.017 9V21H3.017Z" />
+            </svg>
+            <p class="text-slate-600 italic leading-relaxed line-clamp-5 text-lg">
+              "{{ testimony.content }}"
+            </p>
+          </div>
+
+          <div class="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-12 h-12 rounded-2xl bg-lemon/10 flex items-center justify-center text-deep-green font-bold text-xl uppercase">
+                {{ testimony.name.charAt(0) }}
+              </div>
+              <div class="text-left">
+                <p class="font-black text-slate-900 leading-none mb-1">{{ testimony.name }}</p>
+                <p class="text-slate-400 text-xs font-bold tracking-wider uppercase">{{ testimony.dateAdded?.toDate() |
+                  date:'mediumDate' }}</p>
+              </div>
+            </div>
+            <button (click)="openModal(testimony)"
+              class="w-10 h-10 rounded-full bg-deep-green text-lemon flex items-center justify-center hover:bg-lemon hover:text-deep-green transition-all duration-300 shadow-lg shadow-deep-green/10">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      } @empty {
+      <div class="text-center py-20 bg-white rounded-[3rem] border-2 border-dashed border-slate-200 md:col-span-3">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-slate-50 rounded-full mb-6">
+          <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <p class="text-slate-500 font-bold text-xl">No testimonies shared yet.</p>
+        <p class="text-slate-400 mt-2">Be the first to share your story of God's faithfulness!</p>
+      </div>
+      }
+    </div>
+
+    <!-- Load More -->
+    @if (hasMore()) {
+    <div class="mt-16 text-center">
+      <button (click)="loadMore()"
+        class="inline-flex items-center gap-3 px-12 py-4 bg-white border border-slate-200 text-deep-green font-black rounded-3xl hover:bg-deep-green hover:text-lemon hover:border-deep-green transition-all duration-500 shadow-xl shadow-slate-200/50 hover:shadow-deep-green/20 hover:-translate-y-1">
+        <span>Load More Miracles</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+    </div>
+    }
+
+    <!-- Testimony Modal -->
+    @if (selectedTestimony(); as t) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+      <!-- Backdrop -->
+      <div (click)="closeModal()"
+        class="absolute inset-0 bg-slate-900/80 backdrop-blur-md animate-in fade-in duration-500"></div>
+
+      <!-- Modal Content -->
+      <div
+        class="relative bg-white rounded-[2.5rem] shadow-2xl w-full max-w-2xl overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-10 duration-500">
+        <!-- Close Button -->
+        <button (click)="closeModal()"
+          class="absolute top-8 right-8 p-3 text-slate-400 hover:text-white hover:bg-red-500 rounded-2xl transition-all z-20 group">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+
+        <div class="max-h-[85vh] overflow-y-auto">
+          <!-- Modal Header Image -->
+          @if (t.imageUrl) {
+          <div class="h-64 w-full relative">
+            <img [src]="t.imageUrl" [alt]="t.name" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent"></div>
+          </div>
+          }
+
+          <div class="p-10 sm:p-14">
+            <div class="flex items-center gap-6 mb-10">
+              <div
+                class="w-20 h-20 bg-lemon rounded-3xl flex items-center justify-center text-deep-green shadow-xl shadow-lemon/20">
+                <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                    clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-3xl sm:text-4xl font-black text-slate-900 mb-1">{{ t.name }}</h3>
+                <p class="text-deep-green font-black tracking-widest text-xs uppercase">{{ t.dateAdded?.toDate() |
+                  date:'longDate' }}</p>
+              </div>
+            </div>
+
+            <div class="relative">
+              <p class="text-slate-600 text-xl leading-relaxed whitespace-pre-wrap italic">
+                {{ t.content }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-50/50 p-8 flex justify-center border-t border-slate-100">
+          <button (click)="closeModal()"
+            class="group flex items-center gap-3 bg-deep-green hover:bg-deep-green-hover text-white font-black px-12 py-4 rounded-3xl transition-all shadow-xl shadow-deep-green/30 hover:shadow-deep-green/40 hover:-translate-y-1">
+            <span>Close Testimony</span>
+            <svg class="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

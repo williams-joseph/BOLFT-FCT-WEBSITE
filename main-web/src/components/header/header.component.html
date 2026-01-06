@@ -1,0 +1,49 @@
+<header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <a routerLink="/" class="flex items-center space-x-2" (click)="closeMenu()">
+        <img src="assets/logo.jpg" alt="BOLFT Logo" class="h-12 w-12 rounded-full border border-lemon shadow-sm">
+        <span class="text-lg font-semibold text-deep-green hidden sm:block">Brethren Of Like Faith Tabernacle</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-6">
+        <a routerLink="/" routerLinkActive="text-deep-green font-bold" [routerLinkActiveOptions]="{exact: true}"
+          class="text-gray-600 hover:text-deep-green transition-colors duration-200">Home</a>
+        <a routerLink="/sermons" routerLinkActive="text-deep-green font-bold"
+          class="text-gray-600 hover:text-deep-green transition-colors duration-200">Sermons</a>
+        <a routerLink="/testimonies" routerLinkActive="text-deep-green font-bold"
+          class="text-gray-600 hover:text-deep-green transition-colors duration-200">Testimonies</a>
+        <a routerLink="/contact" routerLinkActive="text-deep-green font-bold"
+          class="text-gray-600 hover:text-deep-green transition-colors duration-200">Contact Us</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button (click)="toggleMenu()" class="text-gray-600 hover:text-deep-green focus:outline-none">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            @if (!isMenuOpen()) {
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            } @else {
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            }
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div [class]="isMenuOpen() ? 'block' : 'hidden'" class="md:hidden absolute top-20 left-0 w-full bg-white shadow-lg">
+    <nav class="flex flex-col items-center space-y-4 py-4">
+      <a routerLink="/" routerLinkActive="text-deep-green font-bold" [routerLinkActiveOptions]="{exact: true}"
+        class="text-gray-600 hover:text-deep-green" (click)="closeMenu()">Home</a>
+      <a routerLink="/sermons" routerLinkActive="text-deep-green font-bold" class="text-gray-600 hover:text-deep-green"
+        (click)="closeMenu()">Sermons</a>
+      <a routerLink="/testimonies" routerLinkActive="text-deep-green font-bold"
+        class="text-gray-600 hover:text-deep-green" (click)="closeMenu()">Testimonies</a>
+      <a routerLink="/contact" routerLinkActive="text-deep-green font-bold" class="text-gray-600 hover:text-deep-green"
+        (click)="closeMenu()">Contact Us</a>
+    </nav>
+  </div>
+</header>

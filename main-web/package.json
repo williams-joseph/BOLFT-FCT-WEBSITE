@@ -1,0 +1,32 @@
+{
+  "name": "brethren-of-like-faith-tabernacle",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "ng serve",
+    "build": "ng build",
+    "preview": "ng serve --configuration=production"
+  },
+  "dependencies": {
+    "@angular/build": "^18.0.0",
+    "@angular/cli": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/compiler-cli": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/fire": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/router": "^18.0.0",
+    "firebase": "^10.0.0",
+    "rxjs": "^7.8.0",
+    "tailwindcss": "latest",
+    "zone.js": "~0.14.10"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "~5.4.5",
+    "vite": "^5.0.0"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Brethren Of Like Faith Tabernacle",
+  "description": "A simple, modern church website featuring sermons, testimonies, and a contact form, with data mocked to simulate a Firestore backend.",
+  "requestFramePermissions": []
+}
