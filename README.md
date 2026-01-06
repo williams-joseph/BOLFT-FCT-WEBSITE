@@ -48,3 +48,6 @@ Alternatively, use the recommended helper scripts for a clean start:
 
 ## Documentation
 The codebase is comprehensively commented to facilitate future updates and maintenance.
+
+---
+&copy; 2025 Brethren Of Like Faith Tabernacle. All rights reserved.
