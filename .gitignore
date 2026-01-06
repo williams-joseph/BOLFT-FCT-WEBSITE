@@ -1,0 +1,15 @@
+# General
+node_modules/
+dist/
+.angular/
+*.log
+
+# Environments / Secrets
+src/environments/
+*.env
+*.local
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
