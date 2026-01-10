@@ -8,22 +8,29 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    // Helper function to check if user is an authorized admin
+    function isAdmin() {
+      return isAuthenticated() && 
+             (request.auth.token.email == 'willybrian45@gmail.com' || 
+              request.auth.token.email == 'bolft.fct@gmail.com');
+    }
+
     // Sermons: Public Read, Admin Write
     match /sermons/{sermonId} {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if isAdmin();
     }
 
     // Testimonies: Public Read, Admin Write
     match /testimonies/{testimonyId} {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if isAdmin();
     }
 
-    // Contact Messages: Public Create, Admin Read
+    // Contact Messages: Public Create, Admin Read/Delete
     match /contact_messages/{messageId} {
       allow create: if true;
-      allow read, delete: if isAuthenticated();
+      allow read, delete: if isAdmin();
       // Prevent updating existing messages
       allow update: if false;
     }

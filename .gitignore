@@ -3,15 +3,25 @@ node_modules/
 dist/
 .angular/
 *.log
+firebase-debug.log*
+.firebase/
 
 # Environments / Secrets
 **/src/environments/environment.ts
 **/src/environments/environment.prod.ts
 **/src/environments/environment.dev.ts
 *.env
+*.env.*
 *.local
+.firebaserc
 
-# Editor
+# Editor / OS
 .vscode/
 .idea/
 .DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

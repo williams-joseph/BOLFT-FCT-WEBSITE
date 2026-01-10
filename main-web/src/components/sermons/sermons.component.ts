@@ -4,6 +4,7 @@ import { SermonService, Sermon } from '../../services/sermon.service';
 import { DatePipe, CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
+import { ModalService } from '../../services/modal.service';
 
 /**
  * SermonsComponent
@@ -24,6 +25,7 @@ import { FormsModule } from '@angular/forms';
 export class SermonsComponent {
   private readonly sermonService = inject(SermonService);
   private readonly http = inject(HttpClient);
+  private readonly modalService = inject(ModalService);
 
   /** Reactive signal containing the list of all sermons */
   readonly sermons = toSignal(this.sermonService.getSermons(), { initialValue: [] });
@@ -92,7 +94,11 @@ export class SermonsComponent {
         if (audioSrc && audioEl.src !== audioSrc) {
           audioEl.src = audioSrc;
           audioEl.load();
-          audioEl.play().catch(e => console.error('Error playing audio:', e));
+          audioEl.play().catch(e => {
+            console.error('Error playing audio:', e);
+            this.modalService.showError('Unable to play audio. The link might be restricted or broken.', 'Playback Error');
+            this.activeSermonId.set(null);
+          });
         }
       } else if (audioEl && activeId === null) {
         audioEl.pause();
@@ -170,7 +176,11 @@ export class SermonsComponent {
     } catch (error) {
       console.error('Download failed:', error);
       // Fallback to direct link if HttpClient is blocked by CORS
-      window.open(url, '_blank');
+      try {
+        window.open(url, '_blank');
+      } catch (fallbackError) {
+        this.modalService.showError('Failed to start download. Please check your internet connection or try a different browser.', 'Download Failed');
+      }
     } finally {
       this.downloadingId.set(null);
     }

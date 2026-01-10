@@ -46,6 +46,25 @@ Alternatively, use the recommended helper scripts for a clean start:
 - `./clean_run_main.sh`
 - `./clean_run_admin.sh`
 
+## Deployment
+
+This project is configured for Firebase Hosting with a multi-site setup.
+
+### Sites
+- **Main Web**: `bolftfct-church.web.app`
+- **Admin Web**: `bolftfct-admin.web.app`
+
+### Deploying
+The recommended way to deploy updates is using the provided script:
+```bash
+./deploy.sh
+```
+
+Alternatively, you can run manual commands:
+- Deploy everything: `firebase deploy`
+- Main only: `firebase deploy --only hosting:main`
+- Admin only: `firebase deploy --only hosting:admin`
+
 ## Documentation
 The codebase is comprehensively commented to facilitate future updates and maintenance.
 

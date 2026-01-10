@@ -1,0 +1,37 @@
+{
+    "hosting": [
+        {
+            "target": "main",
+            "public": "main-web/dist",
+            "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+            ],
+            "rewrites": [
+                {
+                    "source": "**",
+                    "destination": "/index.html"
+                }
+            ]
+        },
+        {
+            "target": "admin",
+            "public": "admin-web/dist",
+            "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+            ],
+            "rewrites": [
+                {
+                    "source": "**",
+                    "destination": "/index.html"
+                }
+            ]
+        }
+    ],
+    "firestore": {
+        "rules": "firestore.rules"
+    }
+}

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactService } from '../../services/contact.service';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   standalone: true,
@@ -13,6 +14,7 @@ import { ContactService } from '../../services/contact.service';
 export class ContactComponent {
   private readonly fb: FormBuilder = inject(FormBuilder);
   private readonly contactService = inject(ContactService);
+  private readonly modalService = inject(ModalService);
 
   readonly contactForm = this.fb.group({
     name: ['', Validators.required],
@@ -34,11 +36,13 @@ export class ContactComponent {
     this.submissionStatus.set('submitting');
     this.contactService.saveContactMessage(this.contactForm.getRawValue() as any)
       .then(() => {
-        this.submissionStatus.set('success');
+        this.submissionStatus.set('idle');
+        this.modalService.showSuccess('Your message has been sent successfully. We will get back to you shortly.', 'Message Sent');
         this.contactForm.reset();
       })
       .catch(() => {
-        this.submissionStatus.set('error');
+        this.submissionStatus.set('idle');
+        this.modalService.showError('There was an error sending your message. Please try again later.', 'Submission Failed');
       });
   }
 }
